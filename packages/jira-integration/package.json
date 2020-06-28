@@ -1,0 +1,17 @@
+{
+  "name": "@monoprefix/jira-integration",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src --root-mode upward --out-dir dist --source-maps --extensions .ts,.tsx --delete-dir-on-start --no-comments",
+    "start": "yarn build && node dist/index.js"
+  },
+  "dependencies": {
+    "jira-client": "^6.17.0"
+  },
+  "devDependencies": {
+    "@types/jira-client": "^6.13.1",
+    "@types/node": "^12.7.2"
+  }
+}

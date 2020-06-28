@@ -1,0 +1,16 @@
+{
+  "name": "@monoprefix/gitlab-integration",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src --root-mode upward --out-dir dist --source-maps --extensions .ts,.tsx --delete-dir-on-start --no-comments",
+    "start": "yarn build && node dist/index.js"
+  },
+  "dependencies": {
+    "@gitbeaker/node": "^22.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.2"
+  }
+}
