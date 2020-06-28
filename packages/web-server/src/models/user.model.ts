@@ -5,29 +5,32 @@ import jwt from 'jsonwebtoken'
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-  email: String,
-  googleId: String,
+  email: { type: String, required: true, unique: true },
+  googleId: { type: String, required: true, unique: true },
   profileImageUrl: String,
 })
 
 userSchema.methods.generateJWT = function () {
-  const today = new Date()
-  const expirationDate = new Date(today)
-  expirationDate.setDate(today.getDate() + 60)
-
-  return jwt.sign(
+  console.log({
+    id: (this._id ?? this.id).toString(),
+    email: this.email,
+  })
+  const token = jwt.sign(
     {
+      id: (this._id ?? this.id).toString(),
       email: this.email,
-      id: this._id ?? this.id,
-      exp: parseInt((expirationDate.getTime() / 1000).toString(), 10),
     },
-    'secret'
+    'secret',
+    {
+      expiresIn: 604800, // 1 week
+    }
   )
+  return token
 }
 
 userSchema.methods.toAuthJSON = function () {
   return {
-    id: this._id ?? this.id,
+    id: (this._id ?? this.id)?.toString(),
     email: this.email,
     profileImageUrl: this.profileImageUrl,
     token: `Bearer ${this.generateJWT()}`,

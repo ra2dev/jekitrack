@@ -2,6 +2,7 @@ import React from 'react'
 import { Typography } from 'antd'
 import { Fields } from '../../../components/kit'
 import IntegrationForm from './common/IntegrationForm'
+import { updateJiraIntegration, fetchJiraIntegration, checkJiraIntegration } from '../../../api'
 
 const dataSource = [
   {
@@ -12,9 +13,13 @@ const dataSource = [
   },
   {
     key: '2',
-    name: 'API token',
-    description: 'You generate the token from your Atlassian account',
-    field: <Fields.Input name="token" placeholder="token" />,
+    name: 'Username',
+    field: <Fields.Input name="username" placeholder="token" />,
+  },
+  {
+    key: '3',
+    name: 'Password',
+    field: <Fields.Input name="password" placeholder="token" type="password" />,
   },
 ]
 
@@ -22,7 +27,18 @@ export default function JiraBlock() {
   return (
     <div>
       <Typography.Title level={3}>Jira Integration</Typography.Title>
-      <IntegrationForm onSubmit={(f: any) => alert(JSON.stringify(f))} dataSource={dataSource} />
+      <IntegrationForm
+        onSubmit={updateJiraIntegration}
+        dataSource={dataSource}
+        fetchData={fetchJiraIntegration}
+        validate={checkJiraIntegration}
+        fields={['url', 'username', 'password']}
+      />
     </div>
   )
 }
+
+// host: 'jira.exigeninsurance.com',
+// username: 'rramanouski',
+// password: '=',
+// strictSSL: true,

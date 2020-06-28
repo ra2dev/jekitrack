@@ -1,7 +1,14 @@
 module.exports = (api) => {
 	api.cache(true)
+	const babelrcRoots = [
+		// Keep the root as a root
+		'.',
+		// Also consider monorepo packages "root" and load their .babelrc.json.
+		'./packages/*',
+	]
 
 	return {
+		babelrcRoots,
 		presets: [
 			'@babel/env',
 			[

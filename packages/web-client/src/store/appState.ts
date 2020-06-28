@@ -6,9 +6,15 @@ class AppState {
   @observable appContext: any = null
   @observable authorized: boolean | undefined = undefined
 
+  @action onLogout = () => {
+    LocalStorage.clearAll()
+    this.appContext = null
+    this.authorized = false
+  }
+
   @action authSuccess = (appToken: any, appContext: any) => {
     if (appToken) {
-      axios.defaults.headers.Authorization = `Bearer ${appToken}`
+      axios.defaults.headers.Authorization = appToken
     }
 
     this.authorized = !!appToken

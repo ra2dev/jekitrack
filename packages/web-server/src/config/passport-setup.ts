@@ -1,13 +1,7 @@
 import passport from 'passport'
 import GoogleStrategy from 'passport-google-oauth20'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
-import { User } from '../models/user/user.model'
-
-const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'secret', // TODO REPLACE
-  algorithms: ['RS256'],
-}
+import { User } from '../models/user.model'
 
 passport.serializeUser((user: any, done: any) => {
   return done(null, user.id)
@@ -21,6 +15,8 @@ passport.deserializeUser(async (id: any, done: any) => {
 passport.use(
   new GoogleStrategy(
     {
+      clientID: '770056324406-9te1fa2abgqp05gbgs6qk7mqg7t60he7.apps.googleusercontent.com',
+      clientSecret: 'twU0Z2J3NYJ68p6FDeOLJhXl',
       callbackURL: 'http://localhost:3001/google/redirect',
       scope: [
         'https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly',
@@ -44,18 +40,21 @@ passport.use(
 )
 
 passport.use(
-  new JwtStrategy(opts, async (payload, done) => {
-    try {
-      const user = await User.findById(payload.sub)
-      if (!user) {
-        done(null, false)
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: 'secret', // TODO REPLACE
+    },
+    async (payload, done) => {
+      try {
+        const user = await User.findById(payload.id)
+        if (!user) {
+          done(null, false)
+        }
+        done(null, user)
+      } catch (err) {
+        done(err)
       }
-      done(null, user)
-    } catch (err) {
-      done(err)
     }
-  })
+  )
 )
-
-// cluster0-shard-00-01-ehaih.mongodb.net:27017
-// 4/1QFHfZh-s3qvID4Kv7AhCCYswRswq6FblRj-a3wSJKjoDTtksnBrfl3Fqgj7LwyK4ff7OFj_VXLU1XUfcbs6I9E&scope=email%20https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly%20https://www.googleapis.com/auth/userinfo.email%20openid&authuser=1&prompt=consent

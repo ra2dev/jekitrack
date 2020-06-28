@@ -1,24 +1,27 @@
 import React from 'react'
 import { Layout, Menu, Avatar, Tag, Dropdown, Button } from 'antd'
 import { AppstoreOutlined, ControlOutlined } from '@ant-design/icons'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react'
 import Logo from '../kit/common/Logo'
 import appState from '../../store/appState'
 
 const { Header, Content, Sider } = Layout
 
-const menu = (
+const createMenu = ({ logout }: any) => (
   <Menu>
-    <Menu.Item>
-      <Link to="/login">Logout</Link>
-    </Menu.Item>
+    <Menu.Item onClick={logout}>Logout</Menu.Item>
   </Menu>
 )
 
 export default observer(function AppLayout(props: { children: React.ReactNode }) {
   const { pathname } = useLocation()
-  const { appContext } = appState
+  const history = useHistory()
+  const { appContext, onLogout } = appState
+  const logout = () => {
+    onLogout()
+    history.push('/login')
+  }
   return (
     <Layout>
       <Header className="app-header">
@@ -27,7 +30,7 @@ export default observer(function AppLayout(props: { children: React.ReactNode })
           &nbsp;&nbsp; <Tag color="orange">beta</Tag>
         </div>
         <div className="app-header-user">
-          <Dropdown overlay={menu}>
+          <Dropdown overlay={createMenu({ logout })}>
             <Button style={{ height: '42px' }}>
               {appContext?.email}&nbsp;&nbsp;<Avatar src={appContext?.profileImageUrl}>U</Avatar>
             </Button>

@@ -2,6 +2,7 @@ import React from 'react'
 import { Typography } from 'antd'
 import { Fields } from '../../../components/kit'
 import IntegrationForm from './common/IntegrationForm'
+import { updateGitlabIntegration, fetchGitlabIntegration } from '../../../api'
 
 const dataSource = [
   {
@@ -22,7 +23,7 @@ export default function GitlabBlock() {
   return (
     <div>
       <Typography.Title level={3}>Gitlab Integration</Typography.Title>
-      <IntegrationForm onSubmit={(f: any) => alert(JSON.stringify(f))} dataSource={dataSource} />
+      <IntegrationForm onSubmit={updateGitlabIntegration} dataSource={dataSource} fetchData={fetchGitlabIntegration} />
     </div>
   )
 }
