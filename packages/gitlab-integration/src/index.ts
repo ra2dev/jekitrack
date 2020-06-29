@@ -1,22 +1,17 @@
 import { Gitlab } from '@gitbeaker/node'
 
-class GitlabIntegration {
+export class BaseGitlabIntegration {
   provider: any
-  constructor() {
+
+  constructor(props: { token: string; url: string }) {
     this.provider = new Gitlab({
-      token: '15GmKstb_b_65pzBNb_1',
-      host: 'http://vnoeisgengit02.exigengroup.com/',
+      token: props.token,
+      host: 'http://vnoeisgengit02.exigengroup.com/' || props.url,
     })
   }
 
-  async execute() {
-    const data = await this.provider.Projects.all({
-      perPage: 40,
-      maxPages: 2,
-      showExtended: true,
-    })
-    console.log(data)
+  validateCredentials = async () => {
+    const data = await this.provider.Projects.all({ perPage: 1, maxPages: 1 })
+    return data
   }
 }
-
-new GitlabIntegration().execute()

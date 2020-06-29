@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Row, Button, Typography } from 'antd'
-import CommonForm from '../../../../components/kit/forms/CommonForm'
+import { Table, Row, Button, Typography, Alert, message } from 'antd'
 import { pick } from 'lodash'
+import CommonForm from '../../../../components/kit/forms/CommonForm'
 
 const defaultColumns = [
   {
@@ -28,31 +28,33 @@ const defaultColumns = [
   },
 ]
 
-export default function IntegrationForm({
-  dataSource,
-  onSubmit,
-  columns = defaultColumns,
-  fetchData,
-  validate,
-  fields,
-}: any) {
+export default function IntegrationForm({ dataSource, onSubmit, columns = defaultColumns, fetchData, fields }: any) {
   const [data, setData] = useState(false as any)
   useEffect(() => {
     fetchData().then((res: any) => {
       setData(pick(res?.data, fields))
     })
+    // eslint-disable-next-line
   }, [])
+  const onFormSubmit = async (form: any, ...args: any[]) => {
+    try {
+      const result = await onSubmit(form, ...args)
+      message.success('Saved integration successfully')
+      return result
+    } finally {
+      setData({ ...form, password: null })
+    }
+  }
+
   return (
-    <CommonForm onSubmit={onSubmit} initialValues={data}>
-      {({ submitting }: any) => {
+    <CommonForm onSubmit={onFormSubmit} initialValues={data}>
+      {({ submitting, formError }: any) => {
         return (
           <>
             <Table dataSource={dataSource} columns={columns} pagination={false} bordered />
             <br />
-            <Row justify="end">
-              <Button type="ghost" size="large" style={{ marginRight: '10px' }} onClick={validate}>
-                Validate
-              </Button>
+            <Row justify="space-between">
+              <div>{formError && <Alert message={formError} type="error" />}</div>
               <Button type="primary" size="large" htmlType="submit" loading={submitting}>
                 Save Settings
               </Button>

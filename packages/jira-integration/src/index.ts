@@ -1,14 +1,14 @@
 import Jira from 'jira-client'
 
 export class BaseJiraIntegration {
-  jira: Jira
+  provider: Jira
 
   constructor(props: Jira.JiraApiOptions) {
-    this.jira = new Jira(props)
+    this.provider = new Jira(props)
   }
 
-  async findIssue() {
-    const data = await this.jira.getAllBoards()
-    console.log(data)
+  async validateCredentials() {
+    const data = await this.provider.getAllBoards()
+    return !!data
   }
 }

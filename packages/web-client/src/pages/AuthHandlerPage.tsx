@@ -22,6 +22,7 @@ export default observer(function AuthHandler() {
 
     appState.onLogin(token, appContext)
     history.push('/dashboard')
+    // eslint-disable-next-line
   }, [])
   return <div />
 })

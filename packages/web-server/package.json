@@ -22,7 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "query-string": "^6.13.1",
     "lodash": "^4.17.15",
-    "http-status-codes": "^1.4.0"
+    "http-status-codes": "^1.4.0",
+    "googleapis": "^52.1.0"
   },
   "devDependencies": {
     "@types/passport": "^1.0.3",

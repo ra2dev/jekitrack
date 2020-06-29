@@ -13,17 +13,34 @@ const dataSource = [
   },
   {
     key: '2',
-    name: 'API token',
-    description: 'You generate the token from your Atlassian account',
+    name: 'Access token',
+    description: (
+      <>
+        Check guide how you can create access token&nbsp;
+        <a
+          rel="noreferrer"
+          target="_blank"
+          href="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#creating-a-personal-access-token"
+        >
+          how to encrypt
+        </a>
+      </>
+    ),
     field: <Fields.Input name="token" placeholder="token" />,
   },
 ]
 
+// TODO make token hidden
 export default function GitlabBlock() {
   return (
     <div>
       <Typography.Title level={3}>Gitlab Integration</Typography.Title>
-      <IntegrationForm onSubmit={updateGitlabIntegration} dataSource={dataSource} fetchData={fetchGitlabIntegration} />
+      <IntegrationForm
+        onSubmit={updateGitlabIntegration}
+        dataSource={dataSource}
+        fetchData={fetchGitlabIntegration}
+        fields={['token', 'url']}
+      />
     </div>
   )
 }

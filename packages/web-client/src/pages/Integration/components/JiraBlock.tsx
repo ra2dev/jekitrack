@@ -2,7 +2,7 @@ import React from 'react'
 import { Typography } from 'antd'
 import { Fields } from '../../../components/kit'
 import IntegrationForm from './common/IntegrationForm'
-import { updateJiraIntegration, fetchJiraIntegration, checkJiraIntegration } from '../../../api'
+import { updateJiraIntegration, fetchJiraIntegration } from '../../../api'
 
 const dataSource = [
   {
@@ -14,12 +14,14 @@ const dataSource = [
   {
     key: '2',
     name: 'Username',
+    description: 'without domain @gmail.com',
     field: <Fields.Input name="username" placeholder="token" />,
   },
   {
     key: '3',
     name: 'Password',
-    field: <Fields.Input name="password" placeholder="token" type="password" />,
+    description: 'password will be stored ',
+    field: <Fields.Input name="password" placeholder="password" type="password" />,
   },
 ]
 
@@ -31,14 +33,8 @@ export default function JiraBlock() {
         onSubmit={updateJiraIntegration}
         dataSource={dataSource}
         fetchData={fetchJiraIntegration}
-        validate={checkJiraIntegration}
         fields={['url', 'username', 'password']}
       />
     </div>
   )
 }
-
-// host: 'jira.exigeninsurance.com',
-// username: 'rramanouski',
-// password: '=',
-// strictSSL: true,
