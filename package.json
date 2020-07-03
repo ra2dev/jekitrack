@@ -17,6 +17,8 @@
   "author": "Raman Ramanouski <badmandoes@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "start:server": "lerna prefix ",
+    "start": "concurrently \"command1 arg\" \"command2 arg\"",
     "tsc": "tsc",
     "test": "jest",
     "update:snapshots": "jest -u",
@@ -52,6 +54,7 @@
     "@typescript-eslint/parser": "^3.4.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
+    "concurrently": "^5.2.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
