@@ -1,41 +1,47 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase,no-unused-expressions */
 import { google } from 'googleapis'
 
 const credentials2 = {}
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-export class GoogleCalendarIntegration {
-  constructor(private credentials: any) {
-    this.authorize()
+export class BaseGoogleCalendarIntegration {
+  credentials: any
+  authClient: any
+
+  constructor() {
+    this.credentials = credentials2
+    this.authClient = this.getAuthClient()
   }
 
-  async authorize() {
+  getAuthClient() {
     const { client_secret, client_id, redirect_uris } = this.credentials
     const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
-
-    const token = oAuth2Client.setCredentials(JSON.parse(token as any))
-    // return oAuth2Client
+    return oAuth2Client
   }
 
-  async getAccessToken(oAuth2Client: any, callback: any) {
-    const authUrl = oAuth2Client.generateAuthUrl({
+  async getAccessToken() {
+    return this.authClient.generateAuthUrl({
       access_type: 'offline',
       scope: SCOPES,
     })
-
-    console.log('HERERE')
-    console.log(authUrl)
-
-    // TODO show it for user
-    // oAuth2Client.getToken(code, (err: any, token: any) => {
-    //   if (err) {
-    //     return console.error('Error retrieving access token', err)
-    //   }
-    //   oAuth2Client.setCredentials(token)
-    //   callback(oAuth2Client)
-    // })
   }
 
-  async execute() {}
+  async authorize(code: string) {
+    const { tokens } = await this.authClient.getToken(code)
+    this.authClient.setCredentials(tokens)
+    return tokens
+  }
+
+  async listEvents() {
+    const calendar = google.calendar({ version: 'v3', auth: this.authClient })
+    const result = await calendar.events.list({
+      calendarId: 'primary',
+      timeMin: new Date().toISOString(),
+      maxResults: 10,
+      singleEvents: true,
+      orderBy: 'startTime',
+    })
+    return result
+  }
 }

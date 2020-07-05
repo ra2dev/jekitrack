@@ -2,10 +2,10 @@ import { Router } from 'express'
 import HttpStatus from 'http-status-codes'
 import { BaseJiraIntegration } from '@monoprefix/jira-integration'
 import { BaseGitlabIntegration } from '@monoprefix/gitlab-integration'
+import { BaseGoogleCalendarIntegration } from '@monoprefix/google-integration'
 import { authCheck } from '../middlewares/authHandler'
 import { GitlabIntegration, JiraIntegration, GoogleIntegration } from '../models/integration.model'
 import authRoute from './auth-routes'
-import { BaseGoogleCalendarIntegration } from './google-integration'
 
 const route = new Router()
 
