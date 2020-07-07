@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import HttpStatus from 'http-status-codes'
+import pick from 'lodash/pick'
 import { BaseJiraIntegration } from '@monoprefix/jira-integration'
+import { BaseGoogleCalendarIntegration } from '@monoprefix/google-calendar-integration'
 import { BaseGitlabIntegration } from '@monoprefix/gitlab-integration'
-import { BaseGoogleCalendarIntegration } from '@monoprefix/google-integration'
 import { authCheck } from '../middlewares/authHandler'
 import { GitlabIntegration, JiraIntegration, GoogleIntegration } from '../models/integration.model'
 import authRoute from './auth-routes'
@@ -70,7 +71,18 @@ route.get('/google-add', authRoute, async (req: any, res: any) => {
   const googleIntegration = await new BaseGoogleCalendarIntegration()
   const tokenInfo: any = await googleIntegration.authorize(code)
 
-  await new GoogleIntegration({ userId, ...tokenInfo }).save()
+  const data = await GoogleIntegration.findOneAndUpdate(
+    { userId },
+    { $set: pick(tokenInfo, 'access_token', 'expiry_date', 'expiry_date', 'scope') }
+  )
+
+  if (!data) {
+    await new GoogleIntegration({
+      userId,
+      ...pick(tokenInfo, 'access_token', 'expiry_date', 'expiry_date', 'scope', 'token_type'),
+    }).save()
+  }
+
   res.redirect('http://localhost:3000/integrations')
 })
 

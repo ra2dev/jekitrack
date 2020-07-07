@@ -14,7 +14,7 @@ export default function GoogleBlock() {
       setInfo({
         integration: integration,
         isLoading: false,
-        isExpired: integration && new Date().getTime() < integration?.expiry_date,
+        isExpired: integration && new Date().getTime() > integration?.expiry_date,
       })
       if (respAuthUrl) {
         setAuthUrl(respAuthUrl)
