@@ -8,6 +8,7 @@ import logger, { logStream } from './utils/logger'
 import * as errorHandler from './middlewares/errorHandler'
 import authRoutes from './routes/auth-routes'
 import integrationRoutes from './routes/integration-routes'
+import reportingRoutes from './routes/reporting-routes'
 
 import './config/passport-setup'
 import './config/mongodb-setup'
@@ -25,6 +26,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(authRoutes)
 app.use('/integrations', integrationRoutes)
+app.use('/reports', reportingRoutes)
 
 app.get('/', function (req, res) {
   res.send('Hello World! 2 3 5')

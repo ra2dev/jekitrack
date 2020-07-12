@@ -8,7 +8,8 @@
     "start": "yarn build && node dist/index.js"
   },
   "dependencies": {
-    "@gitbeaker/node": "^22.0.1"
+    "@gitbeaker/node": "^22.0.1",
+    "date-fns": "2.14.0"
   },
   "devDependencies": {
     "@types/node": "^12.7.2"

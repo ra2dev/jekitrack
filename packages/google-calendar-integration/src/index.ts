@@ -1,7 +1,8 @@
 /* eslint-disable camelcase,no-unused-expressions */
 import { google } from 'googleapis'
 
-const credentials2 = {}
+const credentials2 = {
+}
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
@@ -9,9 +10,13 @@ export class BaseGoogleCalendarIntegration {
   credentials: any
   authClient: any
 
-  constructor() {
+  constructor(tokens: any) {
     this.credentials = credentials2
     this.authClient = this.getAuthClient()
+
+    if (tokens) {
+      this.authClient.setCredentials(tokens)
+    }
   }
 
   getAuthClient() {
@@ -30,7 +35,15 @@ export class BaseGoogleCalendarIntegration {
   async authorize(code: string) {
     const { tokens } = await this.authClient.getToken(code)
     this.authClient.setCredentials(tokens)
+    console.log('TOKENS--------------------------')
+    console.log('TOKENS--------------------------', tokens)
     return tokens
+  }
+
+  async getUserDetails() {
+    const calendar = google.calendar({ version: 'v3', auth: this.authClient })
+    const result = await
+    return result
   }
 
   async listEvents() {

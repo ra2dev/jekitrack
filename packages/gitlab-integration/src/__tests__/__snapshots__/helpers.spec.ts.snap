@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Helpers] groupEvents should extract actions with messages 1`] = `
+Object {
+  "2020-07-06": Array [
+    Object {
+      "actions": Object {
+        "pushed to": Array [
+          "[GENESIS-43100] Small fix.",
+          "[GENESIS-43100] Small change.",
+        ],
+      },
+      "ticket": "GENESIS-43100",
+    },
+    Object {
+      "actions": Object {
+        "opened": Array [
+          "Unknown action",
+        ],
+        "pushed new": Array [
+          "[GENESIS-46425] Adding base form library.",
+        ],
+        "pushed to": Array [
+          "[GENESIS-46425] Small change.",
+        ],
+      },
+      "ticket": "GENESIS-46425",
+    },
+  ],
+  "2020-07-07": Array [
+    Object {
+      "actions": Object {
+        "commented on": Array [
+          "Commented at: GENESIS-46425 \\"Add form module\\"",
+          "Commented at: GENESIS-46425 \\"Add form module\\"",
+        ],
+        "pushed to": Array [
+          "[GENESIS-46425] Updating package.json.",
+          "[GENESIS-46425] Fixing linter.",
+          "Merge master into GENESIS-46425_add_form_module",
+          "[GENESIS-46425] Updated README.md",
+          "[GENESIS-46425] Rolled back customer indv change.",
+          "[GENESIS-46425] Base form library package.",
+        ],
+      },
+      "ticket": "GENESIS-46425",
+    },
+  ],
+  "2020-07-08": Array [
+    Object {
+      "actions": Object {
+        "accepted": Array [
+          "Unknown action",
+        ],
+        "deleted": Array [
+          "Unknown action",
+        ],
+        "pushed to": Array [
+          "[GENESIS-46425] Temp commented BR tests.",
+        ],
+      },
+      "ticket": "GENESIS-46425",
+    },
+  ],
+  "2020-07-09": Array [
+    Object {
+      "actions": Object {
+        "commented on": Array [
+          "Commented at: GENESIS-46563 \\"Yarn audit job fails\\"",
+          "Commented at: GENESIS-46563 \\"Yarn audit job fails\\"",
+          "Commented at: GENESIS-46563 \\"Yarn audit job fails\\"",
+          "Commented at: GENESIS-46563 \\"Yarn audit job fails\\"",
+          "Commented at: GENESIS-46563 \\"Yarn audit job fails\\"",
+        ],
+      },
+      "ticket": "GENESIS-46563",
+    },
+    Object {
+      "actions": Object {
+        "commented on": Array [
+          "Commented at: [GENESIS-30498] Unit tests and Story for MoneyInput component",
+        ],
+      },
+      "ticket": "GENESIS-30498",
+    },
+    Object {
+      "actions": Object {
+        "pushed new": Array [
+          "[GENESIS-46425] Added translate, updated hooks/HOCs.",
+        ],
+      },
+      "ticket": "GENESIS-46425",
+    },
+  ],
+  "2020-07-10": Array [
+    Object {
+      "actions": Object {
+        "opened": Array [
+          "Unknown action",
+        ],
+        "pushed to": Array [
+          "[GENESIS-46426] Added form library.",
+          "[GENESIS-46426] Form library update.",
+          "[GENESIS-46426] Working on form library.",
+        ],
+      },
+      "ticket": "GENESIS-46426",
+    },
+  ],
+}
+`;

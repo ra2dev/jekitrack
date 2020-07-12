@@ -1,0 +1,135 @@
+.react-resizable {
+  position: relative;
+}
+.react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+}
+.react-resizable-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+  transform: rotate(90deg);
+}
+.react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+.react-resizable-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+  transform: rotate(180deg);
+}
+.react-resizable-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+  transform: rotate(270deg);
+}
+.react-resizable-handle-w,
+.react-resizable-handle-e {
+  top: 50%;
+  margin-top: -10px;
+  cursor: ew-resize;
+}
+.react-resizable-handle-w {
+  left: 0;
+  transform: rotate(135deg);
+}
+.react-resizable-handle-e {
+  right: 0;
+  transform: rotate(315deg);
+}
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+  left: 50%;
+  margin-left: -10px;
+  cursor: ns-resize;
+}
+.react-resizable-handle-n {
+  top: 0;
+  transform: rotate(225deg);
+}
+.react-resizable-handle-s {
+  bottom: 0;
+  transform: rotate(45deg);
+}
+
+.box {
+  background: #1c1d25;
+  border: 1px solid #32333c;
+  border-radius: 5px;
+  margin-right: 5px;
+  padding: 10px 10px 10px 36px;
+  cursor: pointer;
+  overflow: hidden;
+  min-width: 75px;
+}
+
+span.grippy {
+  content: '....';
+  height: 35px;
+  width: 20px;
+  margin: 0;
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 5px;
+  padding: 3px 4px;
+  cursor: move;
+  vertical-align: middle;
+  font-size: 12px;
+  font-family: sans-serif;
+  letter-spacing: 2px;
+  color: #cccccc;
+  text-shadow: 1px 0 1px black;
+}
+span.grippy::after {
+  content: '.. .. .. ..';
+}
+
+.resize-handle {
+  position: absolute;
+  height: 68px;
+  width: 8px;
+  top: 0;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:not(.resize-handle__left) {
+    right: 0;
+    border-right: 2px solid #ffc541;
+    cursor: e-resize;
+  }
+}
+
+.resize-handle__left {
+  left: 0;
+  cursor: w-resize;
+  border-left: 2px solid #ffc541;
+}
+
+.time-control__text {
+  font-size: 12px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.time-control__box {
+  display: flex;
+  max-width: 1200px;
+  background: #32333c;
+  border-radius: 5px;
+  padding: 5px;
+}
