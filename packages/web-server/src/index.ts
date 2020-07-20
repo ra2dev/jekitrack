@@ -24,14 +24,14 @@ app.use(errorHandler.bodyParser)
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+/**
+ * Routes
+ */
 app.use(authRoutes)
 app.use('/integrations', integrationRoutes)
 app.use('/reports', reportingRoutes)
 
-app.get('/', function (req, res) {
-  res.send('Hello World! 2 3 5')
-})
-
-app.listen(3001, function () {
+app.listen(process.env.APP_PORT || 3001, function () {
   logger.info('App is listening on port 3001!')
 })

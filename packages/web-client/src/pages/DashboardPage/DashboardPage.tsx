@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { Field } from 'react-final-form'
-import { Table, Button, Row, Typography } from 'antd'
+import parse from 'date-fns/parse'
+import isEmpty from 'lodash/isEmpty'
+import format from 'date-fns/format'
+import { Table, Button, Row, Typography, message } from 'antd'
 import AppLayout from '../../components/app/AppLayout'
 import axios from '../../api/axios'
 import TimeControl from './TimeControl/TimeControl'
 import CommonForm from '../../components/kit/forms/CommonForm'
-//
+
 const defaultColumns = [
   {
     title: 'Controls',
     key: 'date',
-    width: '120px',
+    width: '140px',
     render: (v: any) => {
-      return <div>{v}</div>
+      const result = format(parse(v, 'yyyy-MM-dd', new Date()), 'ccc (dd-MMM)')
+      return (
+        <div>
+          <b>{result}</b>
+        </div>
+      )
     },
   },
   {
@@ -27,10 +35,16 @@ const defaultColumns = [
 export default function DashboardPage() {
   // eslint-disable-next-line no-unused-vars
   const [rData, setData] = useState(null)
-
   useEffect(() => {
     axios.get('/reports/gitlab').then(({ data }) => {
-      setData(data)
+      const r: any = Object.entries(data).reduce(
+        (acc, [k, v]: any) => ({
+          ...acc,
+          [k]: v?.map((e: any) => ({ ...e, time: e.time ?? 0.5 })),
+        }),
+        {}
+      )
+      setData(r)
     })
   }, [])
 
@@ -38,16 +52,23 @@ export default function DashboardPage() {
     <AppLayout>
       <Typography.Title level={3}>Reportings</Typography.Title>
       <CommonForm
-        onSubmit={(f: any) => alert(JSON.stringify(f, null, 4))}
+        onSubmit={async (f: any) => {
+          const result = await axios.post('/reports/track-time', f)
+          if (isEmpty(result)) {
+            message.success('Saved successfully.')
+            return undefined
+          }
+          return result
+        }}
         initialValues={{
           items: rData,
         }}
       >
-        {() => {
+        {({ submitting }: any) => {
           return (
             <>
               <Table
-                dataSource={Object.keys(rData || {}) as any}
+                dataSource={Object.keys(rData || {}).sort() as any}
                 columns={defaultColumns}
                 pagination={false}
                 loading={!rData}
@@ -55,7 +76,7 @@ export default function DashboardPage() {
               />
               <br />
               <Row justify="end">
-                <Button type="primary" size="large" htmlType="submit">
+                <Button type="primary" size="large" htmlType="submit" loading={submitting}>
                   Save Reportings
                 </Button>
               </Row>
@@ -67,9 +88,3 @@ export default function DashboardPage() {
     </AppLayout>
   )
 }
-// <>
-//     {Object.keys(rData || {}).map((k) => (
-//         <Field name={`items.${k}`} component={TimeControl} />
-//     ))}
-//     <button>Submit</button>
-// </>

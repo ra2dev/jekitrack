@@ -12721,9 +12721,9 @@ jest@^26.1.0:
     jest-cli "^26.1.0"
 
 jira-client@^6.17.0:
-  version "6.17.0"
-  resolved "https://registry.yarnpkg.com/jira-client/-/jira-client-6.17.0.tgz#946648a8e8c192bcc6340cc22b4c2d6534fa1656"
-  integrity sha512-7Pw90QT9P/p7GjBFe9oEUtjJmBXiRwPaVDLIPvfdzdQ6gkwsSqFDIn8nSqYvzxGdPBJLER7XWt3cTE4FeqDCfQ==
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/jira-client/-/jira-client-6.18.0.tgz#8f2639c7a3db16ec995b5443f602a5f47d2da063"
+  integrity sha512-ecGSJJETF65wmp/rYjVVKGcRb4YBFG90jLWK9AQ/7D1ZFL8NfMn9omS5znD93q6+CX9wqWgzrm5FSwyTnXh6Vw==
   dependencies:
     "@babel/runtime" "^7.6.0"
     request "^2.88.0"

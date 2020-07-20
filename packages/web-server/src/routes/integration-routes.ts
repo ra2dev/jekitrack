@@ -1,11 +1,12 @@
 import { Router } from 'express'
 import HttpStatus from 'http-status-codes'
-import pick from 'lodash/pick'
 import { BaseJiraIntegration } from '@monoprefix/jira-integration'
 import { BaseGoogleCalendarIntegration } from '@monoprefix/google-calendar-integration'
+import pick from 'lodash/pick'
 import { BaseGitlabIntegration } from '@monoprefix/gitlab-integration'
 import { authCheck } from '../middlewares/authHandler'
 import { GitlabIntegration, JiraIntegration, GoogleIntegration } from '../models/integration.model'
+import { User } from '../models/user.model'
 
 const route = new Router()
 
@@ -65,30 +66,30 @@ route.get('/google-calendar', authCheck, async (req: any, res: any) => {
   res.json({ authUrl, integration })
 })
 
-route.get('/google-add', authCheck, async (req: any, res: any) => {
+route.get('/google-add', async (req: any, res: any) => {
   const code = req.query?.code
-  const userId = req.user?.id
 
-  const googleIntegration = await new BaseGoogleCalendarIntegration()
-  const tokenInfo: any = await googleIntegration.authorize(code)
+  const googleIntegration = new BaseGoogleCalendarIntegration()
 
-  'https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly',
-    'https://www.googleapis.com/auth/userinfo.email'
-  tokenInfo.authClient
-  console.log(tokenInfo)
-  // const data = await GoogleIntegration.findOneAndUpdate(
-  //   { userId },
-  //   { $set: pick(tokenInfo, 'access_token', 'expiry_date', 'expiry_date', 'scope') }
-  // )
-  //
-  // if (!data) {
-  //   await new GoogleIntegration({
-  //     userId,
-  //     ...pick(tokenInfo, 'access_token', 'expiry_date', 'expiry_date', 'scope', 'token_type'),
-  //   }).save()
-  // }
+  const tokenInfo = await googleIntegration.authorize(code)
 
-  res.redirect('http://localhost:3000/integrations')
+  const user = await User.findOne({
+    email: await googleIntegration.getUserEmail(),
+  })
+
+  const userId = user!.id
+  const data = await GoogleIntegration.findOneAndUpdate(
+    { userId },
+    { $set: pick(tokenInfo, 'access_token', 'refresh_token', 'expiry_date', 'expiry_date', 'scope') }
+  )
+
+  if (!data) {
+    await new GoogleIntegration({
+      userId,
+      ...pick(tokenInfo, 'access_token', 'expiry_date', 'refresh_token', 'expiry_date', 'scope', 'token_type'),
+    }).save()
+  }
+  return res.redirect('http://localhost:3000/integrations')
 })
 
 export default route

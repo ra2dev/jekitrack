@@ -21,7 +21,7 @@ const dataSource = [
     key: '3',
     name: 'Password',
     description: 'password will be stored ',
-    field: <Fields.Input name="password" placeholder="password" type="password" />,
+    field: <Fields.Input name="password" placeholder="password" />,
   },
 ]
 

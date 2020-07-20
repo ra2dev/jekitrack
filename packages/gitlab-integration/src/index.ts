@@ -1,6 +1,4 @@
 import { Gitlab } from '@gitbeaker/node'
-import startOfWeek from 'date-fns/startOfWeek'
-import endOfWeek from 'date-fns/endOfWeek'
 import format from 'date-fns/format'
 import * as helpers from './helpers'
 
@@ -16,17 +14,14 @@ export class BaseGitlabIntegration {
   }
 
   validateCredentials = async () => {
-    const data = await this.provider.Projects.all({ perPage: 1, maxPages: 1 })
-
-    return data
+    return this.provider.Projects.all({ perPage: 1, maxPages: 1 })
   }
 
-  getEvents = async (date = new Date()): Promise<any> => {
-    const [after, before] = [startOfWeek(date, { weekStartsOn: 1 }), endOfWeek(date, { weekStartsOn: 1 })].map((e) =>
-      format(e, BaseGitlabIntegration.DATE_FORMAT)
-    )
-
-    const data = await this.provider.Events.all({ after, before })
+  getEvents = async ({ after, before }: any): Promise<any> => {
+    const data = await this.provider.Events.all({
+      after: format(after, BaseGitlabIntegration.DATE_FORMAT),
+      before: format(before, BaseGitlabIntegration.DATE_FORMAT),
+    })
     return helpers.groupEvents(data)
   }
 }

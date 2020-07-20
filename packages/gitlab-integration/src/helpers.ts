@@ -8,11 +8,14 @@ export const extractTicketNumber = (str: string) => {
 }
 
 export const getTicketNumber = (event: any) => {
-  const tStr = [event?.push_data?.commit_title, event?.push_data?.ref, event?.target_title]
-    .filter(Boolean)
-    .find(extractTicketNumber)
+  const items = [event?.push_data?.commit_title, event?.push_data?.ref, event?.target_title].filter(Boolean)
+  const tStr = items.find(extractTicketNumber)
 
   if (!tStr) {
+    const isPoc = items.some((e) => e?.toString()?.toUpperCase()?.includes('POC'))
+    if (isPoc || process.env.NODE_ENV !== 'development') {
+      return null
+    }
     throw new Error(`Can not find ticket for ${JSON.stringify(event)} `)
   }
   return extractTicketNumber(tStr)
@@ -35,6 +38,9 @@ export const groupEvents = (eventList: any[]): ReportGroupType => {
     const dateKey = format(new Date(e?.created_at ?? e?.note?.created_at), 'yyyy-MM-dd')
     result[dateKey] = result[dateKey] ?? []
     const ticket = getTicketNumber(e)
+    if (!ticket) {
+      return
+    }
     let data: any = result[dateKey]?.find((l: any) => l.ticket === ticket)
     const actionName = e.action_name
     const eventDescription = getEventDescription(e)
