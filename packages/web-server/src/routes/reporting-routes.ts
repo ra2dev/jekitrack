@@ -7,6 +7,7 @@ import { notFound } from '../middlewares/errorHandler'
 import { getDateRange, mergeEvents } from '../utils/events'
 import { BaseJiraIntegration } from '@monoprefix/jira-integration'
 
+// @ts-ignore
 const route = new Router()
 
 route.get('/gitlab', authCheck, async (req: any, res: any) => {
@@ -77,6 +78,7 @@ route.post('/track-time', authCheck, async (req: any, res: any) => {
   })
   console.log('START SUBMIT')
   for (const item of logParams) {
+    console.log('LOG TIME', item, jiraIntegration)
     // await jiraIntegration.logTime(item[0], item[1])
   }
   console.log('END SUBMIT')

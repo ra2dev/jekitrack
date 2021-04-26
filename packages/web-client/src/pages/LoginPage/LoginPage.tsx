@@ -31,7 +31,7 @@ export default function LoginPage() {
       <Card bordered={false} style={{ minWidth: '450px' }}>
         {false && <LoginEmail />}
         <Button type="ghost" block ghost size="large" className="login-google-btn" onClick={onGoogleLogin}>
-          <GoogleOutlined translate /> Continue with Google
+          <GoogleOutlined translate="yes" /> Continue with Google
         </Button>
         <Divider />
         <div className="content-center">

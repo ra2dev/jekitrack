@@ -41,11 +41,11 @@ export default observer(function AppLayout(props: { children: React.ReactNode })
         <Sider width={200} className="site-layout-background">
           <br />
           <Menu mode="inline" defaultSelectedKeys={[pathname]} defaultOpenKeys={[pathname]} style={{ borderRight: 0 }}>
-            <Menu.Item key="/dashboard" icon={<AppstoreOutlined translate />}>
+            <Menu.Item key="/dashboard" icon={<AppstoreOutlined translate="yes" />}>
               Dashboard
               <Link to="/dashboard" />
             </Menu.Item>
-            <Menu.Item key="/integrations" icon={<ControlOutlined translate />}>
+            <Menu.Item key="/integrations" icon={<ControlOutlined translate="yes" />}>
               Integrations
               <Link to="/integrations" />
             </Menu.Item>

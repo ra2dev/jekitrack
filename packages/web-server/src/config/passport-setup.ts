@@ -2,6 +2,7 @@ import passport from 'passport'
 import GoogleStrategy from 'passport-google-oauth20'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 import { User } from '../models/user.model'
+import { config } from '../config'
 
 passport.serializeUser((user: any, done: any) => {
   return done(null, user.id)
@@ -13,15 +14,13 @@ passport.deserializeUser(async (id: any, done: any) => {
 })
 
 passport.use(
+  // @ts-ignore
   new GoogleStrategy(
     {
-      clientID: '770056324406-9te1fa2abgqp05gbgs6qk7mqg7t60he7.apps.googleusercontent.com',
-      clientSecret: 'twU0Z2J3NYJ68p6FDeOLJhXl',
-      callbackURL: 'http://localhost:3001/google/redirect',
-      scope: [
-        'https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly',
-        'https://www.googleapis.com/auth/userinfo.email',
-      ],
+      clientID: config.googleAuthClientId,
+      clientSecret: config.googleAuthClientSecret,
+      callbackURL: config.googleAuthCallbackUrl,
+      scope: config.googleAuthScope,
     },
     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
       const existingUser: any = await User.findOne({ googleId: profile.id })
@@ -43,7 +42,7 @@ passport.use(
   new JwtStrategy(
     {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'secret', // TODO REPLACE
+      secretOrKey: config.sessionCookieKey, // TODO REPLACE
     },
     async (payload, done) => {
       try {

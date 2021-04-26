@@ -1,31 +1,27 @@
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
+import { config } from '../config'
 
 const { Schema } = mongoose
 
-const userSchema = new Schema({
+const userSchema = new Schema<any>({
   email: { type: String, required: true, unique: true },
   googleId: { type: String, required: true, unique: true },
   profileImageUrl: String,
 })
 
 userSchema.methods.generateJWT = function () {
-  console.log({
-    id: (this._id ?? this.id).toString(),
-    email: this.email,
-  })
-  const token = jwt.sign(
+  return jwt.sign(
     {
       id: (this._id ?? this.id).toString(),
       email: this.email,
     },
-    'secret',
+    config.sessionCookieKey,
     {
       expiresIn: 604800, // 1 week
     }
   )
-  return token
 }
 
 userSchema.methods.toAuthJSON = function () {

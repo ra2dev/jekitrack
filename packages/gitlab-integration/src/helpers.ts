@@ -31,6 +31,7 @@ export const getEventDescription = (event: any) => {
 }
 
 export const groupEvents = (eventList: any[]): ReportGroupType => {
+  console.log('eventList', eventList)
   const events = eventList.filter((e) => !(e.action_name?.includes('pushed') && e?.push_data?.ref === 'master'))
 
   const result: any = {}

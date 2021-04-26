@@ -9,7 +9,7 @@ export class BaseGitlabIntegration {
   constructor(props: { token: string; url: string }) {
     this.provider = new Gitlab({
       token: props.token,
-      host: 'http://vnoeisgengit02.exigengroup.com/' || props.url,
+      host: props.url,
     })
   }
 

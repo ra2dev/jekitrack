@@ -39,8 +39,7 @@ export default function GoogleBlock() {
               </>
             )}
             <Button size="large" type="primary" href={authUrl}>
-              <GoogleOutlined translate />
-
+              <GoogleOutlined translate="yes" />
               {integration ? 'Reconnect' : 'Connect'}
             </Button>
           </>

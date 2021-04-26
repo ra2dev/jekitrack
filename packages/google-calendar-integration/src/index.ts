@@ -1,7 +1,5 @@
 /* eslint-disable camelcase,no-unused-expressions */
 import { google } from 'googleapis'
-import startOfWeek from 'date-fns/startOfWeek'
-import endOfWeek from 'date-fns/endOfWeek'
 import credentials2 from './credentials.todo-remove'
 import * as helpers from './helpers'
 

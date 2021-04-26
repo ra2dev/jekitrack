@@ -7,8 +7,10 @@ import { BaseGitlabIntegration } from '@monoprefix/gitlab-integration'
 import { authCheck } from '../middlewares/authHandler'
 import { GitlabIntegration, JiraIntegration, GoogleIntegration } from '../models/integration.model'
 import { User } from '../models/user.model'
+import { config } from '../config'
 
-const route = new Router()
+// @ts-ignore
+const route: any = new Router()
 
 route.post('/jira', authCheck, async (req: any, res: any) => {
   const userId = req.user?.id
@@ -16,7 +18,7 @@ route.post('/jira', authCheck, async (req: any, res: any) => {
 
   try {
     await new BaseJiraIntegration({
-      host: 'jira.exigeninsurance.com', // TODO change to our host
+      host: config.jiraHost,
       username,
       password,
       strictSSL: true,
@@ -42,7 +44,7 @@ route.post('/gitlab', authCheck, async (req: any, res: any) => {
   const { url, token } = req.body
 
   try {
-    await new BaseGitlabIntegration({ url: 'http://vnoeisgengit02.exigengroup.com/', token }).validateCredentials()
+    await new BaseGitlabIntegration({ url: config.gitlabUrl, token }).validateCredentials()
     const data = await GitlabIntegration.findOneAndUpdate({ userId }, { $set: { url, token } })
     if (!data) {
       await new GitlabIntegration({ userId, url, token }).save()
@@ -62,7 +64,6 @@ route.get('/google-calendar', authCheck, async (req: any, res: any) => {
   const authUrl = await new BaseGoogleCalendarIntegration().getAccessToken()
   const integration = await GoogleIntegration.findOne({ userId: req?.user?.id })
 
-  console.log('googleIntegration', req?.user, integration)
   res.json({ authUrl, integration })
 })
 
@@ -89,7 +90,7 @@ route.get('/google-add', async (req: any, res: any) => {
       ...pick(tokenInfo, 'access_token', 'expiry_date', 'refresh_token', 'expiry_date', 'scope', 'token_type'),
     }).save()
   }
-  return res.redirect('http://localhost:3000/integrations')
+  return res.redirect(`${config.clientWebUrl}/integrations`)
 })
 
 export default route

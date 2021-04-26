@@ -38,7 +38,7 @@ export const logStream = {
    *
    * @param {any} message
    */
-  write(message) {
+  write(message: any) {
     logger.info(message.toString())
   },
 }
