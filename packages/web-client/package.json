@@ -18,7 +18,7 @@
     "array-move": "^3.0.0",
     "react-final-form": "^6.5.0",
     "final-form": "^4.20.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "lodash": "^4.17.15"
